@@ -23,7 +23,7 @@ DROP VIEW IF EXISTS final_countries CASCADE;
 
 -- This view creates the table grouped by with countryName, year and average participation rate
 CREATE VIEW avg_participation_rate AS
-SELECT country_id, EXTRACT(YEAR FROM e_date) AS year, COALESCE(AVG(votes_cast * 100.0 / electorate), 0) AS avg_participation_rate 
+SELECT country_id, EXTRACT(YEAR FROM e_date) AS year, COALESCE(AVG(votes_cast * 1.0 / electorate), 0) AS avg_participation_rate 
 FROM election e
 WHERE (EXTRACT(YEAR FROM e_date) BETWEEN 2001 AND 2016) AND electorate IS NOT NULL 
 GROUP BY country_id, year;
