@@ -25,12 +25,12 @@ FROM election e;
 
 CREATE FUNCTION range(v real) RETURNS VARCHAR(20) AS $$
 BEGIN 
-	IF (v > 0  AND v <= 5) THEN RETURN '(0,5]';
-	ELSIF (v > 5  AND v <= 10) THEN RETURN '(5,10]'; 
-	ELSIF (v > 10  AND v <= 20) THEN RETURN '(10,20]';
-	ELSIF (v > 20  AND v <= 30) THEN RETURN '(20,30]';
-	ELSIF (v > 30  AND v <= 40) THEN RETURN '(30,40]';
-	ELSIF (v > 40  AND v <= 100) THEN RETURN '(40,100]';
+	IF (v > 0  AND v <= 5) THEN RETURN '(0-5]';
+	ELSIF (v > 5  AND v <= 10) THEN RETURN '(5-10]'; 
+	ELSIF (v > 10  AND v <= 20) THEN RETURN '(10-20]';
+	ELSIF (v > 20  AND v <= 30) THEN RETURN '(20-30]';
+	ELSIF (v > 30  AND v <= 40) THEN RETURN '(30-40]';
+	ELSIF (v > 40  AND v <= 100) THEN RETURN '(40-100]';
 	ELSE RETURN NULL;
 	END IF;
 END $$ LANGUAGE plpgsql;
@@ -39,7 +39,7 @@ END $$ LANGUAGE plpgsql;
 insert into q1 
 SELECT e.e_date, c.name, range(avg(e_r.votes * 100.0 / e.votes_valid)), p.name_short 
 FROM country c, election_year_format e, election_result e_r, party p
-WHERE (c.id = e.country_id) AND (e.id = e_r.election_id) AND (e_r.party_id = p.id) AND (e.e_date BETWEEN 1996 AND 2016) and (c.name = 'Germany') AND e.votes_valid IS NOT NULL AND e_r.votes IS NOT NULL
+WHERE (c.id = e.country_id) AND (e.id = e_r.election_id) AND (e_r.party_id = p.id) AND (e.e_date BETWEEN 1996 AND 2016) AND e.votes_valid IS NOT NULL AND e_r.votes IS NOT NULL
 GROUP BY c.name, p.name_short, e.e_date;
 
 
