@@ -37,7 +37,30 @@ public class Assignment2 extends JDBCSubmission {
     @Override
     public List<Integer> findSimilarPoliticians(Integer politicianName, Float threshold) {
         // Implement this method!
-        return null;
+        // 
+        List<Integer> similarPolitician = new List<Integer>;
+
+        PreparedStatement politician_info = conn.prepareStatement(
+            "SELECT id, description, comment FROM politician_president WHERE id =" + String.valueOf(politicianName)); 
+            ResultSet pol_data = politician_info.executeQuery();  
+        pol_data.next();  
+        String pol_description = pol_data.getString("description");
+        String pol_comment = pol_data.getString("comment");
+
+        PreparedStatement compare = conn.prepareStatement(
+        “
+        SELECT id, description, comment FROM politician_president
+        ”);
+
+        ResultSet data = compare.executeQuery();
+        while (data.next()) {
+        int id = data.getInt(id);
+        String description = data.getString("description");
+        String comment = data.getString("comment");
+        If(similarity(pol_comment + " " + pol_comment, description + " " + comment) > threshold){
+            similarPolitician.add(id);  
+        }
+        return similarPolitician;
     }
 
     public static void main(String[] args) {
