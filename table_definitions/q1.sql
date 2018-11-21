@@ -34,11 +34,11 @@ BEGIN
 	END IF;
 END $$ LANGUAGE plpgsql;
 
+-- the answer to the query 
+insert into q1 
 SELECT c.name, p.name_short, e.e_date, range(avg(e_r.votes * 100.0 / e.votes_valid)) 
 FROM country c, election_year_format e, election_result e_r, party p
 WHERE (c.id = e.country_id) AND (e.id = e_r.election_id) AND (e_r.party_id = p.id) AND (e.e_date BETWEEN 1996 AND 2016) and (c.name = 'Germany')
 GROUP BY c.name, p.name_short, e.e_date;
 
--- the answer to the query 
-insert into q1 
 
