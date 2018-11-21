@@ -15,7 +15,8 @@ partyName VARCHAR(100)
 
 -- You may find it convenient to do this for each of the views
 -- that define your intermediate steps.  (But give them better names!)
--- DROP VIEW IF EXISTS intermediate_step CASCADE;
+ DROP VIEW IF EXISTS election_year_format CASCADE;
+ DROP FUNCTION IF EXISTS range(v real) CASCADE;
 
 -- Define views for your intermediate steps here.
 CREATE VIEW election_year_format AS
@@ -36,9 +37,9 @@ END $$ LANGUAGE plpgsql;
 
 -- the answer to the query 
 insert into q1 
-SELECT c.name, p.name_short, e.e_date, range(avg(e_r.votes * 100.0 / e.votes_valid)) 
+SELECT e.e_date, c.name, range(avg(e_r.votes * 100.0 / e.votes_valid)), p.name_short 
 FROM country c, election_year_format e, election_result e_r, party p
-WHERE (c.id = e.country_id) AND (e.id = e_r.election_id) AND (e_r.party_id = p.id) AND (e.e_date BETWEEN 1996 AND 2016) and (c.name = 'Germany')
+WHERE (c.id = e.country_id) AND (e.id = e_r.election_id) AND (e_r.party_id = p.id) AND (e.e_date BETWEEN 1996 AND 2016) and (c.name = 'Germany') AND e.votes_valid IS NOT NULL AND e_r.votes IS NOT NULL
 GROUP BY c.name, p.name_short, e.e_date;
 
 

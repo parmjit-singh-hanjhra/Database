@@ -21,8 +21,8 @@ DROP VIEW IF EXISTS max_votes CASCADE;
 DROP VIEW IF EXISTS winning_parties CASCADE;
 DROP VIEW IF EXISTS avg_wins CASCADE;
 DROP VIEW IF EXISTS best_avg_parties CASCADE;
-
-
+DROP VIEW IF EXISTS latest_years CASCADE;
+DROP VIEW IF EXISTS latest_election_won CASCADE;
 -- Define views for your intermediate steps here.
 
 -- Get the elections of a country with maximum votes
