@@ -44,10 +44,9 @@ GROUP BY m_v.country_id, e_r.party_id;
 
 -- Gets the number of election run per party in a country
 CREATE VIEW num_country_party AS
-SELECT e.country_id AS country_id, count(DISTINCT e_r.party_id) AS party_count
-FROM election_result e_r, election e
-WHERE e_r.election_id = e.id
-GROUP BY e.country_id;
+SELECT country_id, count(*) AS party_count
+FROM party p
+GROUP BY country_id;
 
 -- Sum the winnings of all winning parties in a country
 CREATE VIEW sum_winning_parties AS 
